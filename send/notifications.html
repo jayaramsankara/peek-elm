@@ -1,0 +1,14 @@
+<!DOCTYPE HTML>
+<html><head><meta charset="UTF-8"><title>FuConf Notifications</title
+>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="notify-ui.css" />
+</head><body class="body">
+<div id="notifications" style="border:solid;border-width: 0px;"></div>
+<script src="notify.js"></script>
+<script>
+    var node = document.getElementById('notifications');
+    var app = Elm.Send.embed(node);
+</script>
+</body>
+</html>
