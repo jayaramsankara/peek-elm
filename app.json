@@ -2,7 +2,7 @@
     "name": "fuconfsender",
     "repository": "https://github.com/jayaramsankara/peek-elm.git",
     "env": {
-        "ELM_COMPILE": "elm make send/src/Send.elm --output send/notify.js"
+        "ELM_COMPILE": "elm make src/Send.elm --output notify.js"
     },
     "buildpacks": [
         {
