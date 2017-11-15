@@ -1,6 +1,6 @@
 {
     "root": ".",
     "routes": {
-    "/**": "send/sender.html"
+    "/**": "sender.html"
   }
 }
