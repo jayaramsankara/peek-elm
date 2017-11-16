@@ -54,7 +54,7 @@ update msg model =
         Notify ->
             ( { model | response = Nothing }
             , (Http.send NotifyResponse
-                (Http.post (notifyUrlBase ++ model.recipient) (Http.jsonBody (Json.Encode.object [ ( "message", (Json.Encode.string ("{\\\"message\\\" : \\\"" ++ model.message ++ "\\\",\\\"sender\\\" : \\\"" ++ model.sender ++ "\\\"}")) ) ])) notifyResponseDecoder)
+                (Http.post (notifyUrlBase ++ model.recipient) (Http.jsonBody (Json.Encode.object [ ( "message", (Json.Encode.string ("{\"message\" : \"" ++ model.message ++ "\",\"sender\" : \"" ++ model.sender ++ "\"}")) ) ])) notifyResponseDecoder)
               )
             )
 
