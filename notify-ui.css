@@ -55,8 +55,8 @@
   background-image : url(fuconf.png)
 }
 .send-message {
-	width: 265px;
-	height: 31px;
+	width: 140px;
+	height: 32px;
 	font-family: ciscosansTT;
 	font-size: 16px;
 	background-color: #0ab7d7;
@@ -69,12 +69,12 @@
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-  vertical-align: top
+
 }
 
 .message-field {
-	width: 360px;
-	height: 64px;
+	width: 560px;
+	height: 48px;
 	font-family: ciscosansTT;
 	font-size: 16px;
 	background-color: #ffffff;
@@ -90,7 +90,7 @@
 }
 
 .recipient-field {
-	width: 90px;
+	width: 140px;
 	height: 16px;
 	font-family: ciscosansTT;
 	font-size: 16px;
