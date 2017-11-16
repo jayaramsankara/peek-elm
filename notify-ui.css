@@ -69,11 +69,12 @@
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+  vertical-align: top
 }
 
 .message-field {
-	width: 255px;
-	height: 165px;
+	width: 360px;
+	height: 64px;
 	font-family: ciscosansTT;
 	font-size: 16px;
 	background-color: #ffffff;
@@ -89,7 +90,7 @@
 }
 
 .recipient-field {
-	width: 255px;
+	width: 90px;
 	height: 16px;
 	font-family: ciscosansTT;
 	font-size: 16px;
