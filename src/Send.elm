@@ -60,7 +60,15 @@ update msg model =
 
         --( model, Cmd.none )
         NotifyResponse (Ok responseBody) ->
-            ( { model | response = Just ("Successfully Notified") }, Cmd.none )
+            let
+                newModel : String -> Model -> Model
+                newModel message model =
+                    { model | response = Just (message) }
+            in
+                if responseBody.status then
+                    ( newModel "Message Sent." model, Cmd.none )
+                else
+                    ( newModel ("Message Not Delivered. " ++ responseBody.clientId ++ " is not connected.") model, Cmd.none )
 
         NotifyResponse (Err err) ->
             ( { model | response = Just (httpErrToString err) }, Cmd.none )
@@ -102,9 +110,9 @@ view model =
         responseString resp =
             Maybe.withDefault "" resp
 
-        inputRow : String -> Html Msg -> Html Msg
-        inputRow lbl component =
-            tr [] [ td [] [ label [] [ text lbl ] ], td [] [ component ] ]
+        inputRow : List (Html Msg) -> Html Msg
+        inputRow components =
+            tr [] <| List.map (\comp -> td [] [ comp ]) components
 
         textInput cssid ph msg =
             input [ class cssid, placeholder ph, onInput msg ] []
@@ -113,12 +121,11 @@ view model =
             textarea [ class cssid, placeholder ph, onInput msg ] []
 
         actionButton cssid =
-            button [ class cssid, onClick Notify ] [ text "Send Message" ]
+            button [ class cssid, onClick Notify ] [ text "Send" ]
     in
         body []
             [ Html.div []
-                [ Html.table [] [ inputRow "To" (textInput "recipient-field" "Enter UserId" ReceipientReady), inputRow "Message" (textArea "message-field" "Enter Message" MessageReady), inputRow "" (actionButton "send-message") ]
-                , label [] [ text (responseString model.response) ]
+                [ Html.table [] [ inputRow [ text "To", (textInput "recipient-field" "Enter UserId" ReceipientReady), (textArea "message-field" "Enter Message" MessageReady), (actionButton "send-message"), text (responseString model.response) ] ]
                 ]
             ]
 
