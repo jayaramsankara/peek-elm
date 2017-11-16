@@ -125,7 +125,7 @@ view model =
     in
         body []
             [ Html.div []
-                [ Html.table [] [ inputRow [ text "To", (textInput "recipient-field" "Enter UserId" ReceipientReady), (textArea "message-field" "Enter Message" MessageReady), (actionButton "send-message"), text (responseString model.response) ] ]
+                [ Html.table [] [ inputRow [ (textInput "recipient-field" "Enter UserId" ReceipientReady), (textArea "message-field" "Enter Message" MessageReady), (actionButton "send-message"), text (responseString model.response) ] ]
                 ]
             ]
 
