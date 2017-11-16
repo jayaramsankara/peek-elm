@@ -52,7 +52,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         Notify ->
-            ( { model | response = Nothing }
+            ( { model | response = Just ("Notifying.." ++ model.recipient) }
             , (Http.send NotifyResponse
                 (Http.post (notifyUrlBase ++ model.recipient) (Http.jsonBody (Json.Encode.object [ ( "message", (Json.Encode.string ("{\"message\" : \"" ++ model.message ++ "\",\"sender\" : \"" ++ model.sender ++ "\"}")) ) ])) notifyResponseDecoder)
               )
@@ -74,10 +74,10 @@ update msg model =
             ( { model | response = Just (httpErrToString err) }, Cmd.none )
 
         MessageReady msg ->
-            ( { model | message = msg }, Cmd.none )
+            ( { model | message = msg, response = Nothing }, Cmd.none )
 
         ReceipientReady uid ->
-            ( { model | recipient = uid }, Cmd.none )
+            ( { model | recipient = uid, response = Nothing }, Cmd.none )
 
 
 
@@ -123,10 +123,8 @@ view model =
         actionButton cssid =
             button [ class cssid, onClick Notify ] [ text "Send" ]
     in
-        body []
-            [ Html.div []
-                [ Html.table [] [ inputRow [ (textInput "recipient-field" "Enter UserId" ReceipientReady), (textArea "message-field" "Enter Message" MessageReady), (actionButton "send-message"), text (responseString model.response) ] ]
-                ]
+        Html.div [ class "sendsection" ]
+            [ Html.table [] [ inputRow [ (textInput "recipient-field" "Enter UserId" ReceipientReady), (textArea "message-field" "Enter Message" MessageReady), (actionButton "send-message"), text (responseString model.response) ] ]
             ]
 
 

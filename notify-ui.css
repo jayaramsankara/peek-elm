@@ -50,16 +50,28 @@
   background-color: #93B874;
 }
 
-.sender-body {
-  background-color: #93B874;
-  background-image : url(fuconf.png)
+.connect {
+	width: 140px;
+	height: 32px;
+	font-size: 16px;
+	background-color: #F78E4B;
+	color: #fff;
+	padding: 7px;
+	border: none;
+	border-radius: 3px;
+	cursor: pointer;
+	outline: none;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+
 }
+
 .send-message {
 	width: 140px;
 	height: 32px;
-	font-family: ciscosansTT;
 	font-size: 16px;
-	background-color: #0ab7d7;
+	background-color: #F78E4B;
 	color: #fff;
 	padding: 7px;
 	border: none;
@@ -75,14 +87,12 @@
 .message-field {
 	width: 560px;
 	height: 48px;
-	font-family: ciscosansTT;
 	font-size: 16px;
 	background-color: #ffffff;
 	color: #000000;
 	padding: 7px;
 	border: none;
 	border-radius: 3px;
-	cursor: pointer;
 	outline: none;
 	white-space: nowrap;
 	overflow: hidden;
@@ -92,16 +102,45 @@
 .recipient-field {
 	width: 140px;
 	height: 16px;
-	font-family: ciscosansTT;
 	font-size: 16px;
 	background-color: #ffffff;
 	color: #000000;
 	padding: 7px;
 	border: none;
 	border-radius: 3px;
-	cursor: pointer;
 	outline: none;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+}
+
+.sendsection {
+	border: 3px black;
+	outline: none;
+
+}
+
+.notifysection {
+  border: 3px black;
+	outline: none;
+}
+
+.loginsection {
+  border: 3px black;
+	outline: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -100px 0 0 -150px;
+
+}
+
+.heading1 {
+	font-size: 32px;
+	color: #000000;
+}
+
+.heading2 {
+	font-size: 24px;
+	color: #000000;
 }
