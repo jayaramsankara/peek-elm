@@ -22,6 +22,7 @@ type alias Model =
     { recipient : String
     , message : String
     , response : Maybe String
+    , sender : String
     }
 
 
@@ -53,7 +54,7 @@ update msg model =
         Notify ->
             ( { model | response = Nothing }
             , (Http.send NotifyResponse
-                (Http.post (notifyUrlBase ++ model.recipient) (Http.jsonBody (Json.Encode.object [ ( "message", (Json.Encode.string model.message) ) ])) notifyResponseDecoder)
+                (Http.post (notifyUrlBase ++ model.recipient) (Http.jsonBody (Json.Encode.object [ ( "message", (Json.Encode.string model.message) ), ( "sender", (Json.Encode.string model.sender) ) ])) notifyResponseDecoder)
               )
             )
 
@@ -128,4 +129,4 @@ view model =
 
 main : Program Never Model Msg
 main =
-    Html.program { init = ( Model "" "" Nothing, Cmd.none ), view = view, update = update, subscriptions = \t -> Sub.none }
+    Html.program { init = ( Model "" "" Nothing "anonymous", Cmd.none ), view = view, update = update, subscriptions = \t -> Sub.none }
