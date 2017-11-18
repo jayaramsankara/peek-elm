@@ -49,3 +49,8 @@ textArea cssid ph msg =
 actionButton : String -> a -> Html a
 actionButton cssid msg =
     button [ class cssid, onClick msg ] [ text "Send" ]
+
+
+statusMsg : Maybe String -> String
+statusMsg resp =
+    Maybe.withDefault "" resp

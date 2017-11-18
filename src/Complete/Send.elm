@@ -15,13 +15,13 @@ type Msg
     = Notify
     | NotifyResponse (Result Error NotifyResponseBody)
     | MessageReady String
-    | ReceipientReady String
+    | RecipientReady String
 
 
 type alias Model =
     { recipient : String
     , message : String
-    , response : Maybe String
+    , status : Maybe String
     , sender : String
     }
 
@@ -57,7 +57,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         Notify ->
-            ( { model | response = Just ("Notifying.." ++ model.recipient) }
+            ( { model | status = Just ("Notifying.." ++ model.recipient) }
             , (Http.send NotifyResponse
                 (Http.post (notifyUrlBase ++ model.recipient) (toJsonBody model.message model.sender) notifyResponseDecoder)
               )
@@ -68,7 +68,7 @@ update msg model =
             let
                 newModel : String -> Model -> Model
                 newModel message model =
-                    { model | response = Just (message) }
+                    { model | status = Just (message) }
             in
                 if responseBody.status then
                     ( newModel "Message Sent." model, Cmd.none )
@@ -76,13 +76,13 @@ update msg model =
                     ( newModel ("Message Not Delivered. " ++ responseBody.clientId ++ " is not connected.") model, Cmd.none )
 
         NotifyResponse (Err err) ->
-            ( { model | response = Just (httpErrToString err) }, Cmd.none )
+            ( { model | status = Just (httpErrToString err) }, Cmd.none )
 
         MessageReady msg ->
-            ( { model | message = msg, response = Nothing }, Cmd.none )
+            ( { model | message = msg, status = Nothing }, Cmd.none )
 
-        ReceipientReady uid ->
-            ( { model | recipient = uid, response = Nothing }, Cmd.none )
+        RecipientReady uid ->
+            ( { model | recipient = uid, status = Nothing }, Cmd.none )
 
 
 
@@ -111,8 +111,8 @@ httpErrToString err =
 view : Model -> Html Msg
 view model =
     let
-        responseString : Maybe String -> String
-        responseString resp =
+        statusMsg : Maybe String -> String
+        statusMsg resp =
             Maybe.withDefault "" resp
 
         inputRow : List (Html Msg) -> Html Msg
@@ -129,7 +129,10 @@ view model =
             button [ class cssid, onClick msg ] [ text "Send" ]
     in
         Html.div [ class "sendsection" ]
-            [ Html.table [] [ inputRow [ (textInput "recipient-field" "Enter UserId" ReceipientReady) ], inputRow [ (textArea "message-field" "Enter Message" MessageReady), (actionButton "send-message" Notify), text (responseString model.response) ] ]
+            [ Html.table []
+                [ inputRow [ (textInput "recipient-field" "Enter UserId" RecipientReady) ]
+                , inputRow [ (textArea "message-field" "Enter Message" MessageReady), (actionButton "send-message" Notify), text (statusMsg model.status) ]
+                ]
             ]
 
 
