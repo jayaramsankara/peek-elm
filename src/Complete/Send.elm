@@ -48,13 +48,18 @@ notifyResponseDecoder =
         (field "clientId" Json.Decode.string)
 
 
+toJsonBody : String -> String -> Body
+toJsonBody message sender =
+    Http.jsonBody (Json.Encode.object [ ( "message", (Json.Encode.string ("{\"message\" : \"" ++ message ++ "\",\"sender\" : \"" ++ sender ++ "\"}")) ) ])
+
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         Notify ->
             ( { model | response = Just ("Notifying.." ++ model.recipient) }
             , (Http.send NotifyResponse
-                (Http.post (notifyUrlBase ++ model.recipient) (Http.jsonBody (Json.Encode.object [ ( "message", (Json.Encode.string ("{\"message\" : \"" ++ model.message ++ "\",\"sender\" : \"" ++ model.sender ++ "\"}")) ) ])) notifyResponseDecoder)
+                (Http.post (notifyUrlBase ++ model.recipient) (toJsonBody model.message model.sender) notifyResponseDecoder)
               )
             )
 
@@ -120,11 +125,11 @@ view model =
         textArea cssid ph msg =
             textarea [ class cssid, placeholder ph, onInput msg ] []
 
-        actionButton cssid =
-            button [ class cssid, onClick Notify ] [ text "Send" ]
+        actionButton cssid msg =
+            button [ class cssid, onClick msg ] [ text "Send" ]
     in
         Html.div [ class "sendsection" ]
-            [ Html.table [] [ inputRow [ (textInput "recipient-field" "Enter UserId" ReceipientReady) ], inputRow [ (textArea "message-field" "Enter Message" MessageReady), (actionButton "send-message"), text (responseString model.response) ] ]
+            [ Html.table [] [ inputRow [ (textInput "recipient-field" "Enter UserId" ReceipientReady) ], inputRow [ (textArea "message-field" "Enter Message" MessageReady), (actionButton "send-message" Notify), text (responseString model.response) ] ]
             ]
 
 

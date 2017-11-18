@@ -1,11 +1,17 @@
 module Send exposing (..)
 
 import Html exposing (..)
-import Html.Attributes exposing (..)
-import Html.Events exposing (..)
-import Http exposing (..)
-import Json.Encode exposing (..)
+
+
+--import Html.Attributes exposing (..)
+--import Html.Events exposing (..)
+--import Http exposing (..)
+--import Json.Encode exposing (..)
+
 import Json.Decode exposing (..)
+
+
+--import SendUtils exposing (..)
 
 
 notifyUrlBase : String
@@ -15,66 +21,61 @@ notifyUrlBase =
 
 
 -- model
--- type Msg
+
+
+type
+    Msg
+    --TODO Complete the Msg
+    = Notify
 
 
 type alias Model =
-    {}
+    { recipient : String
+    , message :
+        String
+        -- TODO Complete the Model
+    }
+
+
+type alias NotifyResponseBody =
+    { status :
+        Bool
+        -- TODO Complete the Response Body
+    }
 
 
 
-type alias NotifyResponseBody = {
-  status : String,
-  clientId : String
-
-}
 -- update
 
 
 notifyResponseDecoder : Decoder NotifyResponseBody
 notifyResponseDecoder =
-    Json.Decode.map2 NotifyResponseBody
+    Json.Decode.map NotifyResponseBody
+        -- TODO Complete the ResponseBodyDecoder
         (field "status" Json.Decode.bool)
-        (field "clientId" Json.Decode.string)
 
 
-toJsonMessage : Model -> Body
-toJsonMessage model =
-    Http.jsonBody (Json.Encode.object [ ( "message", (Json.Encode.string ("{\"message\" : \"" ++ model.message ++ "\",\"sender\" : \"" ++ model.sender ++ "\"}")) ) ])
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    -- TODO Handle all the messages correctly, Use SendUtils
+    ( model, Cmd.none )
 
-    httpErrToString : Http.Error -> String
-    httpErrToString err =
-        case err of
-            Timeout ->
-                "Timeout Error"
 
-            NetworkError ->
-                "Network Error"
 
-            BadStatus response ->
-                "Bad Status Code in Response : " ++ toString response.status.code
-
-            BadPayload msg _ ->
-                "Bad Response Payload : " ++ msg
-
-            BadUrl _ ->
-                "Invalid URL"
-
---update : Msg -> Model -> ( Model, Cmd Msg )
 -- view
 
 
+view : Model -> Html Msg
+view model =
+    -- TODO Build the view as needed, Use SendUtils
+    div [] [ text "ToDo" ]
 
 
 
-
---view : Model -> Html Msg
---view model =
---Html.div [ class "sendsection" ]
--- TODO Add Div Content
 --main
 
 
 main : Program Never Model Msg
 main =
-    Html.program { init = TODO, view = view, update = update, subscriptions = \t -> Sub.none }
+    -- Provide the correct initial state
+    Html.program { init = ( Model "" "", Cmd.none ), view = view, update = update, subscriptions = \t -> Sub.none }
