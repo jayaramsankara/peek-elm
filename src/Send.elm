@@ -108,7 +108,9 @@ view model =
     Html.div [ class "sendsection" ]
         [ Html.table []
             [ inputRow [ (textInput "recipient-field" "Enter UserId" RecipientReady) ]
-            , inputRow [ (textArea "message-field" "Enter Message" MessageReady), (actionButton "send-message" Notify), text (statusMsg model.status) ]
+            , inputRow [ (textArea "message-field" "Enter Message" MessageReady) ]
+            , inputRow [ (actionButton "send-message" Notify) ]
+            , inputRow [ text (statusMsg model.status) ]
             ]
         ]
 
