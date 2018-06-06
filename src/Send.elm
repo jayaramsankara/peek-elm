@@ -122,4 +122,4 @@ view model =
 main : Program Never Model Msg
 main =
     -- Provide the correct initial state
-    Html.program { init = ( Model "" "" Nothing "", Cmd.none ), view = view, update = update, subscriptions = \t -> Sub.none }
+    Html.program { init = ( Model "" "" Nothing "anonymous", Cmd.none ), view = view, update = update, subscriptions = \t -> Sub.none }
